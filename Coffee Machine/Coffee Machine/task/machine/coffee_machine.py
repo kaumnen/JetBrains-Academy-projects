@@ -1,35 +1,92 @@
-print('''Starting to make a coffee
-Grinding coffee beans
-Boiling water
-Mixing boiled water with crushed coffee beans
-Pouring coffee into the cup
-Pouring some milk into the cup
-Coffee is ready!''')
+amountOfWater = 400
+amountOfMilk = 540
+amountOfCB = 120
+amountOfCups = 9
+amountOfMoney = 550
 
-amountOfWater = int(input('Write how many ml of water the coffee machine has:'))
-amountOfMilk = int(input('Write how many ml of milk the coffee machine has:'))
-amountOfCB = int(input('Write how many ml of coffee beans the coffee machine has:'))
-wantedCoffee = int(input('Write how many cups of coffee you will need:'))
+def greeting():
+    print('''The coffee machine has:
+    {water} of water
+    {milk} of milk
+    {cb} of coffee beans
+    {cups} of disposable cups
+    {money} of money
+    '''.format(water = amountOfWater, milk = amountOfMilk, cb = amountOfCB, cups = amountOfCups, money = amountOfMoney))
 
-def howManyCoffee(water, milk, cb):
-    count = 0
+def espresso():
+    global amountOfWater
+    global amountOfCB
+    global amountOfMoney
+    global amountOfCups
 
-    while water >= 200 and milk >= 50 and cb >= 15:
+    amountOfWater -= 250
+    amountOfCB -= 16
+    amountOfMoney += 4
+    amountOfCups -= 1
 
-        water -= 200
-        milk -= 50
-        cb -= 15
+    return greeting()
 
-        count += 1
+def latte():
+    global amountOfWater
+    global amountOfMilk
+    global amountOfCB
+    global amountOfMoney
+    global amountOfCups
 
-    return count
+    amountOfWater -= 350
+    amountOfMilk -= 75
+    amountOfCB -= 20
+    amountOfMoney += 7
+    amountOfCups -= 1
 
-noOfCups = howManyCoffee(amountOfWater, amountOfMilk, amountOfCB)
-remaindingCups = noOfCups - wantedCoffee
+    return greeting()
 
-if remaindingCups > 0:
-    print('Yes, I can make that amount of coffee (and even {} more than that)'.format(remaindingCups))
-elif noOfCups == wantedCoffee:
-    print('Yes, I can make that amount of coffee')
+def cappuccino():
+    global amountOfWater
+    global amountOfMilk
+    global amountOfCB
+    global amountOfMoney
+    global amountOfCups
+
+    amountOfWater -= 200
+    amountOfMilk -= 100
+    amountOfCB -= 12
+    amountOfMoney += 6
+    amountOfCups -= 1
+
+    return greeting()
+
+greeting()
+
+choice = input('Write action (buy, fill, take): ')
+
+if choice == 'buy':
+    buyChoice = input('What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ')
+    if buyChoice == '1':
+        espresso()
+    elif buyChoice == '2':
+        latte()
+    elif buyChoice == '3':
+        cappuccino()
+    else:
+        print('You entered wrong number. Please try later!')
+
+elif choice == 'fill':
+    additionalWater = int(input('Write how many ml of water do you want to add:'))
+    amountOfWater += additionalWater
+
+    additionalMilk = int(input('Write how many ml of milk do you want to add:'))
+    amountOfMilk += additionalMilk
+
+    additionalCB = int(input('Write how many grams of coffee beans do you want to add:'))
+    amountOfCB += additionalCB
+
+    additionalCups = int(input('Write how many disposable cups of coffee do you want to add:'))
+    amountOfCups += additionalCups
+
+    greeting()
+
 else:
-    print(f'No, I can make only {noOfCups} cups of coffee')
+    print(f'I gave you ${amountOfMoney}')
+    amountOfMoney = 0
+    greeting()
